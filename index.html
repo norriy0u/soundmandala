@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Sound Mandala — Sacred Geometry Audio Synthesizer</title>
+  <meta name="description" content="Click to drop sound pebbles. Build a musical, glowing mandala of sacred geometry.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- LOADING SCREEN -->
+  <div id="loading-screen">
+    <svg class="loader-mandala" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+      <path class="loader-petal" d="M50 50 Q 70 20 50 5 Q 30 20 50 50" />
+      <path class="loader-petal" d="M50 50 Q 80 30 95 50 Q 80 70 50 50" />
+      <path class="loader-petal" d="M50 50 Q 70 80 50 95 Q 30 80 50 50" />
+      <path class="loader-petal" d="M50 50 Q 20 70 5 50 Q 20 30 50 50" />
+    </svg>
+    <div id="start-msg">Click anywhere to begin 🪷</div>
+  </div>
+
+  <!-- TITLE -->
+  <div class="app-title">
+    Sound Mandala
+    <div class="app-subtitle">Sacred Geometry Audio Synth</div>
+  </div>
+
+  <!-- NOTIFICATION -->
+  <div id="notification" class="notification"></div>
+
+  <!-- CANVAS WRAPPER (for rotation) -->
+  <div id="canvas-wrapper">
+    <canvas id="mandala-canvas"></canvas>
+  </div>
+
+  <!-- UI CONTROLS TOP RIGHT -->
+  <div class="ui-panel top-controls">
+    <div class="control-group">
+      <span class="control-label">BPM</span>
+      <span id="bpmVal" style="font-weight:bold;color:var(--accent);">120</span>
+    </div>
+    <input type="range" id="bpmSlider" min="60" max="180" value="120">
+
+    <div class="control-group" style="margin-top:0.5rem">
+      <span class="control-label">Snap Grid</span>
+      <label class="switch">
+        <input type="checkbox" id="snapToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <button class="btn" id="clearBtn" style="margin-top:0.5rem;color:#ef4444;border-color:rgba(239,68,68,0.3)">
+      Clear Canvas 🗑️
+    </button>
+
+    <button class="btn" id="exportImgBtn" style="margin-top:0.5rem">
+      Save Mandala 🖼️
+    </button>
+
+    <button class="btn" id="exportAudioBtn">
+      Export Audio 🎵
+    </button>
+  </div>
+
+  <!-- UI INSTRUMENT GUIDE BOTTOM -->
+  <div class="ui-panel bottom-guide" id="instrumentGuide">
+    <!-- Populated by JS -->
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
