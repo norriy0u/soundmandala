@@ -192,7 +192,13 @@ function handleClick(e) {
   const rawY = e.clientY - rect.top - cy;
 
   let dist = Math.hypot(rawX, rawY);
-  let angle = Math.atan2(rawY, rawX) * 180 / Math.PI;
+  
+  // Reverse the current visual rotation to find the logical angle
+  const currentRotation = (performance.now() / 1000) * (Math.PI * 2 / 120);
+  let angle = (Math.atan2(rawY, rawX) - currentRotation) * 180 / Math.PI;
+  
+  // Normalize angle 0-360
+  angle = angle % 360;
   if (angle < 0) angle += 360;
 
   // Check removal (if clicked near existing pebble)
@@ -261,22 +267,25 @@ function drawLoop() {
 
   ctx.save();
   ctx.translate(cx, cy);
+  
+  // Very slow continuous rotation (0.5 RPM)
+  const now = performance.now();
+  ctx.rotate((now / 1000) * (Math.PI * 2 / 120));
 
   // Guide circles
   ctx.strokeStyle = 'rgba(255,255,255,0.03)';
   ctx.lineWidth = 1;
-  for (let r=80; r<=400; r+=80) {
+  const maxRadius = Math.max(cx, cy) + 100;
+  for (let r=80; r<=maxRadius; r+=80) {
     ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI*2); ctx.stroke();
   }
   // Guide lines
   for (let a=0; a<360; a+=45) {
     ctx.beginPath();
     ctx.moveTo(0,0);
-    ctx.lineTo(400 * Math.cos(a*Math.PI/180), 400 * Math.sin(a*Math.PI/180));
+    ctx.lineTo(maxRadius * Math.cos(a*Math.PI/180), maxRadius * Math.sin(a*Math.PI/180));
     ctx.stroke();
   }
-
-  const now = performance.now();
 
   // Pre-calculate positions for connection lines
   const points = [];
